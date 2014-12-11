@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 6.47 scan initiated Wed Dec 10 17:55:41 2014 as: /usr/bin/nmap -sP -v -oX ./tmp/scan.xml 192.168.1.0/24 -->
-<nmaprun scanner="nmap" args="/usr/bin/nmap -sP -v -oX ./tmp/scan.xml 192.168.1.0/24" start="1418255741" startstr="Wed Dec 10 17:55:41 2014" version="6.47" xmloutputversion="1.04">
+<!-- Nmap 6.47 scan initiated Thu Dec 11 01:35:30 2014 as: /usr/bin/nmap -sP -&#45;scan-delay 0.5 -v -oX ./tmp/scan.xml 192.168.1.0/24 -->
+<nmaprun scanner="nmap" args="/usr/bin/nmap -sP -&#45;scan-delay 0.5 -v -oX ./tmp/scan.xml 192.168.1.0/24" start="1418283330" startstr="Thu Dec 11 01:35:30 2014" version="6.47" xmloutputversion="1.04">
 <verbose level="1"/>
 <debugging level="0"/>
-<taskbegin task="Ping Scan" time="1418255741"/>
-<taskend task="Ping Scan" time="1418255743" extrainfo="256 total hosts"/>
-<taskbegin task="Parallel DNS resolution of 256 hosts." time="1418255743"/>
-<taskend task="Parallel DNS resolution of 256 hosts." time="1418255743"/>
-<host><status state="down" reason="net-unreach" reason_ttl="0"/>
+<taskbegin task="ARP Ping Scan" time="1418283330"/>
+<taskend task="ARP Ping Scan" time="1418283336" extrainfo="255 total hosts"/>
+<taskbegin task="Parallel DNS resolution of 255 hosts." time="1418283336"/>
+<taskend task="Parallel DNS resolution of 255 hosts." time="1418283336"/>
+<host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.0" addrtype="ipv4"/>
-<times srtt="11" rttvar="5000" to="100000"/>
 </host>
-<host><status state="up" reason="syn-ack" reason_ttl="0"/>
+<host><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="192.168.1.1" addrtype="ipv4"/>
+<address addr="AC:22:0B:8D:A9:11" addrtype="mac" vendor="Asustek Computer"/>
 <hostnames>
 <hostname name="DD-WRT" type="PTR"/>
 </hostnames>
-<times srtt="1112" rttvar="5000" to="100000"/>
+<times srtt="97977" rttvar="110964" to="541833"/>
 </host>
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.2" addrtype="ipv4"/>
@@ -329,12 +329,13 @@
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.104" addrtype="ipv4"/>
 </host>
-<host><status state="up" reason="conn-refused" reason_ttl="0"/>
+<host><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="192.168.1.105" addrtype="ipv4"/>
+<address addr="10:A5:D0:E6:63:75" addrtype="mac" vendor="Murata Manufacturing Co."/>
 <hostnames>
 <hostname name="android-d776735fafb23f48" type="PTR"/>
 </hostnames>
-<times srtt="14405" rttvar="14405" to="100000"/>
+<times srtt="91659" rttvar="91659" to="500000"/>
 </host>
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.106" addrtype="ipv4"/>
@@ -426,13 +427,6 @@
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.135" addrtype="ipv4"/>
 </host>
-<host><status state="up" reason="conn-refused" reason_ttl="0"/>
-<address addr="192.168.1.136" addrtype="ipv4"/>
-<hostnames>
-<hostname name="thefunnycow" type="PTR"/>
-</hostnames>
-<times srtt="70" rttvar="5000" to="100000"/>
-</host>
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.137" addrtype="ipv4"/>
 </host>
@@ -442,12 +436,13 @@
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.139" addrtype="ipv4"/>
 </host>
-<host><status state="up" reason="syn-ack" reason_ttl="0"/>
+<host><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="192.168.1.140" addrtype="ipv4"/>
+<address addr="F4:CE:46:75:AD:DC" addrtype="mac" vendor="Hewlett-Packard Company"/>
 <hostnames>
 <hostname name="HP75ADDC" type="PTR"/>
 </hostnames>
-<times srtt="61104" rttvar="65259" to="322140"/>
+<times srtt="158751" rttvar="158751" to="793755"/>
 </host>
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.141" addrtype="ipv4"/>
@@ -458,8 +453,13 @@
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.143" addrtype="ipv4"/>
 </host>
-<host><status state="down" reason="no-response" reason_ttl="0"/>
+<host><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="192.168.1.144" addrtype="ipv4"/>
+<address addr="D0:22:BE:F8:0B:11" addrtype="mac" vendor="Samsung Electro Mechanics co."/>
+<hostnames>
+<hostname name="android-4afe92d19604fa2" type="PTR"/>
+</hostnames>
+<times srtt="158865" rttvar="158865" to="794325"/>
 </host>
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.145" addrtype="ipv4"/>
@@ -791,10 +791,17 @@
 <host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.254" addrtype="ipv4"/>
 </host>
-<host><status state="down" reason="net-unreach" reason_ttl="0"/>
+<host><status state="down" reason="no-response" reason_ttl="0"/>
 <address addr="192.168.1.255" addrtype="ipv4"/>
-<times srtt="16" rttvar="5000" to="100000"/>
 </host>
-<runstats><finished time="1418255743" timestr="Wed Dec 10 17:55:43 2014" elapsed="2.53" summary="Nmap done at Wed Dec 10 17:55:43 2014; 256 IP addresses (4 hosts up) scanned in 2.53 seconds" exit="success"/><hosts up="4" down="252" total="256"/>
+<taskbegin task="Parallel DNS resolution of 1 host." time="1418283336"/>
+<taskend task="Parallel DNS resolution of 1 host." time="1418283336"/>
+<host><status state="up" reason="localhost-response" reason_ttl="0"/>
+<address addr="192.168.1.136" addrtype="ipv4"/>
+<hostnames>
+<hostname name="thefunnycow" type="PTR"/>
+</hostnames>
+</host>
+<runstats><finished time="1418283336" timestr="Thu Dec 11 01:35:36 2014" elapsed="6.27" summary="Nmap done at Thu Dec 11 01:35:36 2014; 256 IP addresses (5 hosts up) scanned in 6.27 seconds" exit="success"/><hosts up="5" down="251" total="256"/>
 </runstats>
 </nmaprun>

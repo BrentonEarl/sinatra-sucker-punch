@@ -1,12 +1,15 @@
-require 'sinatra'
+require 'rubygems'
+require 'sinatra/base'
+require 'haml'
 require 'thin'
 require 'sucker_punch'
 require 'socket'
 require 'netaddr'
 require 'nmap/program'
-require 'haml'
-require 'rack-flash'
+require 'nmap/xml'
 
+
+# Provides IP Adress information for Port Scanner
 class Address
   def initialize
     @info = Socket.getifaddrs.find do |ifaddr|
@@ -25,25 +28,28 @@ class Address
 
 end
 
-class Scan
-  include SuckerPunch::Job
-  workers 4
 
-  def initialize
-    @filepath = "./tmp/scan.xml"
-  end
+# Runs Port Scans and Parses xml file
+class Scan
+
+  include SuckerPunch::Job
+  workers 2 
 
   def ping_sweep(targets)
-    Nmap::Program.scan do |nmap|
+    nmap = Nmap::Program.find
+    nmap.sudo_task(Nmap::Task.new { |nmap|
       nmap.ping = true
-      nmap.targets = "#{targets}"
+      nmap.scan_delay = "0.5"      
+      nmap.targets = targets
       nmap.verbose = true
-      nmap.xml = @filepath
-    end
+      nmap.xml = './tmp/scan.xml'
+    })
   end
+
 end
 
 class Application < Sinatra::Base
+
   configure do
     set :title, "Asynchronus Sinatra"
     set :author, "Brenton Earl"
@@ -51,12 +57,19 @@ class Application < Sinatra::Base
     set :bind, '127.0.0.1'
     set :port, '3000'
     enable :inline_templates
-    enable :sessions
-    use Rack::Flash
   end
 
   get '/' do
     haml :index
+  end
+
+  get '/scan' do
+    haml :scan
+  end
+
+  get '/hosts' do
+    @parser = Nmap::XML.new('./tmp/scan.xml')
+    haml :hosts
   end
 
   post '/scan' do
@@ -64,7 +77,6 @@ class Application < Sinatra::Base
     @scan_target = @address.start_ip_to_s + @address.cidr_to_s
     @scanner = Scan.new
     @scanner.async.ping_sweep(@scan_target)
-    flash[:notice] = "scan successful"
     redirect '/'
   end
 
@@ -73,18 +85,41 @@ end
 __END__
 
 @@layout
+!!!
 %html
   %head
     %title #{ settings.title }
   %body
-    - %w[notice error warning alert info].each do |key|
-      - if flash[key]
-        %div{:id => key,:class => "flash"}= flash[key]
 
-  = yield 
+    = yield 
+
+    %script(src="/right.js")
+    %script(src="/right-tabs.js")
 
 @@index
+%h2 #{ settings.title }
+%small App created by #{ settings.author }
 %p Testing Asynchronus Processes in Sinatra
 
-%form{ :action => "/scan", :method => "post"}
+
+%ul.rui-tabs
+  %ul
+    %li
+      %a#tab-1(href='/scan') Scan
+    %li
+      %a#tab-2(href='/hosts') Hosts
+
+@@scan
+%form#scan{ :action => "/scan", :method => "post"}
   %input{:type => "submit", :value => "Run Ping sweep", :class => "button"}
+
+@@hosts
+%table
+  %tr
+    %td Address
+    %td MAC
+  - @parser.each_up_host do |host|
+    %tr
+      %td #{host.ip}
+      %td #{host.mac}
+
